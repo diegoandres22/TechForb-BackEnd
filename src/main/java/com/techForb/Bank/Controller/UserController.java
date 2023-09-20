@@ -37,6 +37,28 @@ public class UserController {
     }
 
     @PutMapping("user/edit/{id}")
+    public String editUser(@PathVariable Long id, @RequestBody User updatedUser) {
+
+        User user = iuserService.findUser(id);
+
+        if (user == null) {
+            return "User Not Found";
+        } else {
+          
+            user.setName(updatedUser.getName());
+            user.setEmail(updatedUser.getEmail());
+            user.setPassword(updatedUser.getPassword());
+            user.setBalance(updatedUser.getBalance());
+            user.setDocument(updatedUser.getDocument());
+
+            iuserService.saveUser(user);
+        }
+
+        return "User " + user.getName() + " Modified";
+    }
+
+    /* 
+    @PutMapping("user/edit/{id}")
     public User editUser(@PathVariable Long id,
             @RequestParam("name") String newName,
             @RequestParam("email") String newEmail,
@@ -52,5 +74,6 @@ public class UserController {
 
         iuserService.saveUser(user);
         return user;
-    }
+    } 
+     */
 }
